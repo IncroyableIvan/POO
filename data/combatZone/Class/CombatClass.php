@@ -64,15 +64,20 @@
     {
       while (True) {
         $this->combatTurn($spaceMarine, $chaosMarine);
-
-        if($spaceMarine->state() == False || $chaosMarine->state() == False) {
-          // C'est la fin du combat, on a un vainqueur;
-          echo $this->render->info('Ahahah VICTOIRE !!!!!!!!!!');
+        if($spaceMarine->state() == False && $chaosMarine->state() == True) {
+          $this->render->success('Le CHAOS a vaincu');
           return True;
-        } else if($spaceMarine->state() == False && $chaosMarine->state() == False) {
-          // Les deux sont morts, match nul
-          echo "Match nul";
+          // Le ChaosMarine a gagné
+        } else if($chaosMarine->state() == False && $spaceMarine->state() == True) {
+          $this->render->success('La LOI a vaincu');
           return True;
+          // Le SpaceMarine a gagné
+        } else if($chaosMarine->state() == False && $spaceMarine->state() == False) {
+          $this->render->info('Match NUL !');
+          return True;
+          // Match nul
+        } else if ($chaosMarine->state() == True && $spaceMarine->state() == True) {
+          // Les deux sont vivants, on continue
         }
         $this->turn = $this->turn + 1;
       }
